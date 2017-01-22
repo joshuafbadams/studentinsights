@@ -50,6 +50,9 @@ class Import
         models = [ Student, StudentAssessment, DisciplineIncident, Absence, Tardy, Educator, School ]
         log = options["test_mode"] ? LogHelper::Redirect.instance.file : STDOUT
         @report ||= ImportTaskReport.new(models, log)
+      end
+
+      def record
         @record ||= ImportRecord.create!
       end
 
@@ -90,8 +93,8 @@ class Import
     end
 
     def save_record_and_print_final_report
-      @record.time_ended = DateTime.current
-      @record.save
+      record.time_ended = DateTime.current
+      record.save
       report.print_final_report
     end
   end
